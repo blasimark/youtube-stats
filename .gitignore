@@ -1,3 +1,4 @@
 .env
 youtube_stats.sqlite
 __pycache__
+.vscode
