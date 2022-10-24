@@ -1,0 +1,12 @@
+name: de-course
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - pip
+  - python-dotenv
+  - pandas
+  - sqlalchemy
+  - google-api-python-client
+  - ipykernel
