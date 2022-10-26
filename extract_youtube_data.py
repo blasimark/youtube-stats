@@ -1,11 +1,11 @@
 import os
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
-from channel_dict import channel_dict
 import pandas as pd
 import datetime
 import sqlalchemy
 import sqlite3
+import pickle
 
 
 load_dotenv()
@@ -13,7 +13,7 @@ API_KEY = os.getenv("API_KEY")
 DATABASE_LOCATION = "sqlite:///youtube_stats.sqlite"
 
 
-def channel_stats(channel_id: str) -> dict[str, str]:
+def channel_stats(channel_id):
 
     query = build("youtube", "v3", developerKey=API_KEY)
     request = query.channels().list(
@@ -24,7 +24,7 @@ def channel_stats(channel_id: str) -> dict[str, str]:
     return request.execute()["items"][0]["statistics"]
 
 
-def check_if_valid_data(df: pd.DataFrame) -> bool:
+def check_if_valid_data(df):
     if df.empty:
         print("No data downloaded. Finishing execution")
         return False
@@ -35,14 +35,16 @@ def check_if_valid_data(df: pd.DataFrame) -> bool:
     return True
 
 
-if __name__ == "__main__":
-
+def main():
     name = []
     view_count = []
     subscriber_count = []
     video_count = []
     today = datetime.datetime.now().strftime("%Y-%m-%dT%H")
     date = []
+
+    with open("channel_dict.pkl", "rb") as file:
+        channel_dict = pickle.load(file)
 
     for channel, id in channel_dict.items():
         date.append(today)
@@ -85,8 +87,12 @@ if __name__ == "__main__":
     try:
         df.to_sql("youtube_stats", engine, index=False, if_exists="append")
         print("Data successfully put into database")
-    except:
+    except Exception:
         print("Data already exists in the database")
 
     con.close()
     print("Database closed successfully")
+
+
+if __name__ == "__main__":
+    main()

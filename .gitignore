@@ -2,3 +2,4 @@
 youtube_stats.sqlite
 __pycache__
 .vscode
+channel_dict.py

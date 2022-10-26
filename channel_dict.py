@@ -1,3 +1,6 @@
+import pickle
+
+
 channel_dict = {
     "Carlie & Ange": "UC5E0MrgcW45AIqyN0QqJMwQ",
     "Karolina Sowinska": "UCAxnMry1lETl47xQWABvH7g",
@@ -37,3 +40,6 @@ channel_dict = {
     "rob scallon": "UCyDZai57BfE_N0SaBkKQyXg",
     "black gryphon": "UCvzWGXYFDiiJ338KIJPhbhQ"
     }
+
+with open("channel_dict.pkl", "wb") as file:
+    pickle.dump(channel_dict, file)
